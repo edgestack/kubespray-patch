@@ -1,0 +1,25 @@
+From bfe33594b6d24b9b8a28e3c084f7023e8d127a62 Mon Sep 17 00:00:00 2001
+From: Jian Li <pyguni@gmail.com>
+Date: Mon, 29 Jan 2024 23:33:45 -0500
+Subject: [PATCH] Fix: correct download URL, do not use valid_mirror_urls
+
+---
+ roles/download/tasks/download_file.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/roles/download/tasks/download_file.yml b/roles/download/tasks/download_file.yml
+index 98b9487f5..5428e7ea2 100644
+--- a/roles/download/tasks/download_file.yml
++++ b/roles/download/tasks/download_file.yml
+@@ -87,7 +87,7 @@
+   # This task will avoid logging it's parameters to not leak environment passwords in the log
+   - name: Download_file | Download item
+     get_url:
+-      url: "{{ valid_mirror_urls | random }}"
++      url: "{{ download.url }}"
+       dest: "{{ file_path_cached if download_force_cache else download.dest }}"
+       owner: "{{ omit if download_localhost else (download.owner | default(omit)) }}"
+       mode: "{{ omit if download_localhost else (download.mode | default(omit)) }}"
+-- 
+2.39.3
+
