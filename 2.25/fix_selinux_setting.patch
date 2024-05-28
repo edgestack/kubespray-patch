@@ -1,22 +1,13 @@
 diff --git a/roles/kubernetes/preinstall/tasks/0080-system-configurations.yml b/roles/kubernetes/preinstall/tasks/0080-system-configurations.yml
-index 768cd62c9..01f50281b 100644
+index 768cd62c9..4bf8ec1c2 100644
 --- a/roles/kubernetes/preinstall/tasks/0080-system-configurations.yml
 +++ b/roles/kubernetes/preinstall/tasks/0080-system-configurations.yml
-@@ -11,17 +11,6 @@
-     - "'Amazon' not in ansible_distribution"
-   register: slc
+@@ -21,6 +21,8 @@
+     - slc.stat.exists
+   tags:
+     - bootstrap-os
++  vars:
++    ansible_python_interpreter: /usr/bin/python3.6
 
--- name: Set selinux policy
--  ansible.posix.selinux:
--    policy: targeted
--    state: "{{ preinstall_selinux_state }}"
--  when:
--    - ansible_os_family == "RedHat"
--    - "'Amazon' not in ansible_distribution"
--    - slc.stat.exists
--  tags:
--    - bootstrap-os
--
  - name: Disable IPv6 DNS lookup
    lineinfile:
-     dest: /etc/gai.conf
